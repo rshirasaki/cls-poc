@@ -107,21 +107,14 @@ USING (
 CREATE OR REPLACE FUNCTION get_role_based_view()
 RETURNS TABLE (id INT, name VARCHAR(100), role VARCHAR(100), salary INT) SECURITY INVOKER AS $$
 BEGIN
-    IF current_user = 'engineer_manager' THEN
+    IF current_user LIKE '%manager' THEN
         RETURN QUERY 
             SELECT u.id, u.name, u.role, u.salary 
-            FROM users u
-            WHERE u.role IN ('engineer_manager', 'engineer_member');
-    ELSIF current_user = 'marketing_manager' THEN
-        RETURN QUERY 
-            SELECT u.id, u.name, u.role, u.salary 
-            FROM users u
-            WHERE u.role IN ('marketing_manager', 'marketing_member');
-    ELSIF current_user = 'engineer_member' OR current_user = 'marketing_member' THEN
+            FROM users u;
+    ELSIF current_user LIKE '%member' THEN
         RETURN QUERY 
             SELECT u.id, u.name, u.role, NULL::INT 
-            FROM users u
-            WHERE u.role = current_user;
+            FROM users u;
     ELSE
         RETURN QUERY SELECT NULL::INT, NULL::VARCHAR(100), NULL::VARCHAR(100), NULL::INT WHERE false;
     END IF;
