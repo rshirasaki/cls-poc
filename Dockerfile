@@ -2,4 +2,4 @@
 FROM postgres
 
 # Copy the initialization script
-COPY init.sql /docker-entrypoint-initdb.d/
+COPY ./sqls /docker-entrypoint-initdb.d/
