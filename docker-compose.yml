@@ -1,16 +1,15 @@
 version: "3.8"
 services:
-  db:
-    image: postgres:latest
-    container_name: local_pgdb
-    restart: always
-    ports:
-      - "5432:5432"
+  postgres:
+    image: registry.gitlab.com/dalibo/postgresql_anonymizer:stable
+    container_name: pg-anonymizer
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "6543:5432"
     volumes:
       - ./sqls:/docker-entrypoint-initdb.d
+    restart: unless-stopped
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin4_container

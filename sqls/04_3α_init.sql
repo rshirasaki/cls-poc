@@ -1,4 +1,4 @@
-SET ROLE root;
+SET ROLE postgres;
 CREATE DATABASE approach4;
 
 \c approach4
